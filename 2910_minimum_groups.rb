@@ -13,7 +13,7 @@ def min_groups_for_valid_assignment(nums)
   (1..smallest).map do |min_size|
     max_size = min_size + 1
 
-    counts.map do |num, size|
+    counts.sum do |num, size|
       if size % max_size == 0
         size / max_size
       elsif max_size - (size % max_size) <= size / max_size 
@@ -25,7 +25,7 @@ def min_groups_for_valid_assignment(nums)
       else
         Float::INFINITY
       end
-    end.sum
+    end
   end.min
 end
 
