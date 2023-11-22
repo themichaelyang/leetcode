@@ -6,11 +6,18 @@
 # - For any two groups g1 and g2, the difference between the number of indices assigned to g1 and g2 should not exceed 1.
 # Return an integer denoting the minimum number of groups needed to create a valid group assignment.
 
+
+# This is O(counts.size * least). Naively, we could give O(n^2), but we can do better.
+#
+# Notice that least and counts.size have an inverse relationship.
+# if least increases, then counts.size will be smaller.
+#
+# In fact, counts.size <= n / least, so this is O(n).
 def min_groups_for_valid_assignment(nums)
   counts = nums.tally
-  smallest = counts.values.min
+  least = counts.values.min
 
-  (1..smallest).map do |min_size|
+  (1..least).map do |min_size|
     max_size = min_size + 1
 
     counts.sum do |num, size|
