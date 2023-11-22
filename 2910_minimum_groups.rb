@@ -19,7 +19,7 @@ def min_groups_for_valid_assignment(nums)
       elsif max_size - (size % max_size) <= size / max_size 
         # we can take from the groups of max_size to balance out the remainder
         (size / max_size) + 1
-      elsif size % min_size == 0 or (size % min_size) <= size / min_size
+      elsif (size % min_size) <= size / min_size
         # we can distribute the remainder among the groups of min_size
         size / min_size
       else
