@@ -1,3 +1,5 @@
+# https://leetcode.com/problems/minimum-number-of-groups-to-create-a-valid-assignment/description/
+
 # You are given a 0-indexed integer array nums of length n.
 # We want to group the indices so for each index i in the range [0, n - 1], it is assigned to exactly one group.
 #

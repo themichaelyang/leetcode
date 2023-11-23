@@ -1,6 +1,9 @@
+# https://leetcode.com/problems/sequential-digits/
+
 # An integer has sequential digits if and only if each digit in the number is one more than the previous digit.
 # Return a sorted list of all the integers in the range [low, high] inclusive that have sequential digits.
 
+# checking every digit is too slow, so we'll generate them
 def sequential_digits(low, high)
   low_digits = Math.log(low, 10).round
   high_digits = Math.log(high, 10).round
