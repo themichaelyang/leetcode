@@ -1,11 +1,12 @@
 # https://leetcode.com/problems/merge-sorted-array/
 
 # O(m + n) time and O(m + n) additional space
-# This could be improved by iterating the two pointers from:
-# nums1[m] -> nums1[0]
-# and nums2[n] -> nums2[0]
-# this way, as you go through nums1, you don't replace values you haven't
-# already merged.
+
+# This could be improved to O(1) additional space 
+# by iterating largest to smallest. This way, you don't
+# replace values in nums1 that you haven't already used 
+# since the index i of the merge is always behind the 
+# index of the i1 of the original nums1 (m to 0).
 
 # @param {Integer[]} nums1
 # @param {Integer} m
