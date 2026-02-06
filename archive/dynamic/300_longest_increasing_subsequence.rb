@@ -2,34 +2,35 @@
 # Follow up: Can you come up with an algorithm that runs in O(n log(n)) time complexity?
 
 # recursive with memoization
-# def length_of_lis(nums)
-#   longest = []
-#   memory = []
+def length_of_lis(nums)
+  longest = []
+  memory = []
   
-#   0.upto(nums.length - 1).map do |i|
-#     longest_including(nums, i, memory)
-#   end.max { |a, b| a.length <=> b.length }.length
-# end
+  0.upto(nums.length - 1).map do |i|
+    longest_including(nums, i, memory)
+  end.max { |a, b| a.length <=> b.length }.length
+end
 
-# def longest_including(nums, index, memory)
-#   return memory[index] if memory[index]
+def longest_including(nums, index, memory)
+  return memory[index] if memory[index]
 
-#   longest = [nums[index]]
+  longest = [nums[index]]
 
-#   0.upto(index - 1).each do |i|
-#     if nums[index] > nums[i] 
-#       # this list append is what slows it down, if we just want the length this can be faster
-#       # I think instead of keeping the whole list around we can backtrack to recover the longest
-#       longest_with_i = longest_including(nums, i, memory) + [nums[index]]
+  0.upto(index - 1).each do |i|
+    if nums[index] > nums[i] 
+      # this list append is what slows it down, if we just want the length this can be faster
+      # I think instead of keeping the whole list around we can backtrack to recover the longest
+      # longest_with_i = longest_including(nums, i, memory) + [nums[index]]
+      # if longest_with_i.length > longest.length
+      #   longest = longest_with_i
+      # end
 
-#       if longest_with_i.length > longest.length
-#         longest = longest_with_i
-#       end
-#     end
-#   end
+      longest_with_i 
+    end
+  end
 
-#   memory[index] = longest
-# end
+  memory[index] = longest
+end
 
 # tabulation: O(n^2)
 def length_of_lis(nums)

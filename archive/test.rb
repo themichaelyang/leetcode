@@ -4,7 +4,9 @@ module TestSuite
     @assert_cases_passed ||= 0
 
     @assert_cases += 1
-    puts "TEST SUITE: #{self.name if self.respond_to? :name}"
+    if self.respond_to? :name
+      puts "TEST SUITE: #{self.name}"
+    end
     puts "ASSERTION #{@assert_cases}"
 
     if actual != expected
@@ -13,7 +15,7 @@ module TestSuite
       puts "> ✅ passed!"
       @assert_cases_passed += 1
     end
-    
+
     puts
   end
 end
