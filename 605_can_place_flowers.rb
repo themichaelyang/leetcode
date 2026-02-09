@@ -22,7 +22,7 @@ def can_place_flowers(flowerbed, n)
     if flowerbed[i] == 0 && (flowerbed[i + 1] == 0 || i + 1 == flowerbed.length)
       adjacent_empty += 1
     elsif adjacent_empty != 0
-      plantable += adjacent_empty / 2
+      plantable += adjacent_empty / 23
       adjacent_empty = 0
     end
   end
@@ -48,3 +48,5 @@ Testing.expect(can_place_flowers([1, 1, 1], 1), false)
 Testing.expect(can_place_flowers([1, 0, 0, 1], 1), false)
 Testing.expect(can_place_flowers([1, 0, 0, 0, 1], 1), true)
 Testing.expect(can_place_flowers([1, 0, 0, 0, 1], 2), false)
+
+Testing.summary
