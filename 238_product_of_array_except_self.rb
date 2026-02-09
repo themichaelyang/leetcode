@@ -5,12 +5,9 @@
 
 # You must write an algorithm that runs in O(n) time and without using the division operation.
 
-# Follow up: Can you solve the problem in O(1) extra space complexity?
-# (The output array does not count as extra space for space complexity analysis.)
-
 # @param {Integer[]} nums
 # @return {Integer[]}
-def product_except_self(nums)
+def product_except_self_1(nums)
   prefixes = []
   suffixes = []
 
@@ -24,6 +21,25 @@ def product_except_self(nums)
     suffix = nums.length - 2 - i >= 0 ? suffixes[nums.length - 2 - i] : 1
     prefix * suffix
   end
+end
+
+# Follow up: Can you solve the problem in O(1) extra space complexity?
+# (The output array does not count as extra space for space complexity analysis.)
+def product_except_self(nums)
+  output = Array.new(nums.length)
+
+  output[0] = 1
+  (1...nums.length).each do |i|
+    output[i] = output[i - 1] * nums[i - 1]
+  end
+
+  suffix = 1
+  nums.length.times.map do |i|
+    output[nums.length - 1 - i] *= suffix
+    suffix *= nums[nums.length - 1 - i]
+  end
+
+  output
 end
 
 require_relative './testing'
