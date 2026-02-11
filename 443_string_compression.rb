@@ -16,33 +16,31 @@
 # @param {Character[]} chars
 # @return {Integer}
 def compress(chars)
-  last_char = nil
-  compressed_index = 0
-  repeats = 0
+  prev_char = nil
+  next_index = 0
+  prev_times = 1
 
+  # need to add char at last index
   (chars.length + 1).times do |i|
-    if chars[i] == last_char
-      repeats += 1
-    elsif last_char
-      if repeats.zero?
-        chars[compressed_index] = last_char
-        compressed_index += 1
-      else
-        chars[compressed_index] = last_char
-        len_str = (repeats + 1).to_s
-        len_str.length.times do |j|
-          chars[compressed_index + j + 1] = len_str[j]
-        end
-        compressed_index += len_str.length + 1
+    if chars[i] == prev_char
+      prev_times += 1
+    elsif prev_char
+      chars[next_index] = prev_char
+      next_index += 1
+
+      if prev_times > 1
+        len_str = prev_times.to_s
+        chars[next_index...(next_index + len_str.length)] = len_str
+        next_index += len_str.length
       end
 
-      repeats = 0
+      prev_times = 1
     end
 
-    last_char = chars[i]
+    prev_char = chars[i]
   end
 
-  compressed_index
+  next_index
 end
 
 def get_compressed(str)
