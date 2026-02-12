@@ -6,19 +6,16 @@
 # @param {Integer[]} nums
 # @return {Void} Do not return anything, modify nums in-place instead.
 def move_zeroes(nums)
-  zeroes = 0
   next_index = 0
 
   nums.each do |x|
-    if x.zero?
-      zeroes += 1
-    else
+    unless x.zero?
       nums[next_index] = x
       next_index += 1
     end
   end
 
-  nums[-zeroes..-1] = [0] * zeroes if zeroes > 0
+  nums[next_index..-1] = [0] * (nums.length - next_index)
 
   nums
 end
