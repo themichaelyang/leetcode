@@ -11,12 +11,12 @@
 def find_max_average(nums, k)
   window_sum = nums[0...k].sum
   
-  (k...nums.length).reduce(window_sum / k.to_f) do |max_avg, i|
+  (k...nums.length).reduce(window_sum) do |max_sum, i|
     window_sum += nums[i]
     window_sum -= nums[i - k]
 
-    [max_avg, window_sum / k.to_f].max
-  end
+    [max_sum, window_sum].max
+  end / k.to_f
 end
 
 require_relative 'testing'
