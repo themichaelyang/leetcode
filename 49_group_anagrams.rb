@@ -1,7 +1,20 @@
 # @param {String[]} strs
 # @return {String[][]}
-def group_anagrams(strs)
+def group_anagrams_sorting(strs)
   strs.group_by {|s| s.chars.sort }.map {|k, v| v}
+end
+
+def freq_arr(str)
+  freq = Array.new(26) { 0 }
+  str.each_char do |c|
+    freq[c.ord - 'a'.ord] += 1
+  end
+  freq
+end
+
+# solution suggested by neetcode, actually slower for me
+def group_anagrams(strs)
+  strs.group_by {|s| freq_arr(s) }.map {|k, v| v}
 end
 
 require_relative 'testing'
