@@ -1,25 +1,20 @@
 class MaxHeap
-  def parent_index(i)
+  def self.parent_index(i)
     raise if i <= 0
     (i - 1) / 2
   end
 
-  def left_index(i)
+  def self.left_index(i)
     raise if i < 0
     2 * i + 1
   end
 
-  def right_index(i)
+  def self.right_index(i)
     raise if i < 0
     2 * i + 2
   end
 
-  def max_heap?
-    @arr.each_with_index.all? do |val, i|
-      i == 0 || @arr[parent_index(i)] >= val
-    end
-  end
-
+  # could also use Forwardable and def_delegator
   def length
     @arr.length
   end
@@ -32,7 +27,7 @@ class MaxHeap
   # called "max heapify" or "float down" in clrs, or "sink"
   def sift_down!(i)
     return if i < 0
-    index_of_largest = [left_index(i), right_index(i), i].max_by { |j| @arr[j] || -Float::INFINITY }
+    index_of_largest = [MaxHeap.left_index(i), MaxHeap.right_index(i), i].max_by { |j| @arr[j] || -Float::INFINITY }
 
     if i != index_of_largest
       swap_places!(i, index_of_largest)
@@ -42,7 +37,7 @@ class MaxHeap
 
   def bubble_up!(i)
     return if i <= 0
-    parent_i = parent_index(i)
+    parent_i = MaxHeap.parent_index(i)
 
     if @arr[parent_i] < @arr[i]
       swap_places!(parent_i, i)
@@ -56,7 +51,7 @@ class MaxHeap
     end
   end
 
-  def initialize(arr)
+  def initialize(arr=[])
     @arr = arr
     build!
   end
@@ -79,5 +74,9 @@ class MaxHeap
   def push!(val)
     @arr.push(val)
     bubble_up!(length - 1)
+  end
+
+  def to_a
+    @arr
   end
 end
