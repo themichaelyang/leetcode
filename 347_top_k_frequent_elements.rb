@@ -1,3 +1,9 @@
+# Given an integer array nums and an integer k, return the k most frequent elements.
+# You may return the answer in any order.
+
+# Follow up: Your algorithm's time complexity must be better than O(n log n),
+# where n is the array's size.
+
 class MaxHeap
   def self.parent_index(i)
     raise if i <= 0
@@ -47,6 +53,7 @@ class MaxHeap
     end
   end
 
+  # O(n), surprisingly!
   def build!
     ((length / 2) - 1).downto(0) do |i|
       sift_down!(i)
@@ -73,6 +80,10 @@ class MaxHeap
     largest
   end
 
+  def pop_k!(k)
+    k.times.map { pop! }
+  end
+
   def push!(val)
     @arr.push(val)
     bubble_up!(length - 1)
@@ -82,3 +93,26 @@ class MaxHeap
     @arr
   end
 end
+
+MIN = -10000
+MAX = 10000
+
+# @param {Integer[]} nums
+# @param {Integer} k
+# @return {Integer[]}
+def top_k_frequent(nums, k)
+  freq = Array.new(MIN.abs + MAX + 1) { |i| [0, i + MIN]  } # freq[x - min] = [frequency of x, x]
+
+  k_frequent = []
+  nums.each do |x|
+    freq[x - MIN][0] += 1
+  end
+
+  MaxHeap.new(freq).pop_k!(k).map(&:last) # O(n) to build, then O(k log n) to partial heapsort
+end
+
+require_relative './testing'
+Testing.expect(top_k_frequent([1], 1), [1])
+Testing.expect(top_k_frequent([1, 2, 2, 2, 3], 1), [2])
+Testing.expect(top_k_frequent([1,1,1,2,2,3333], 2), [1, 2])
+Testing.summary
