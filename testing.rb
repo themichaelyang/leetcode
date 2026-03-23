@@ -15,6 +15,10 @@ module Testing
     self.expect(check, true)
   end
 
+  def self.refute(check)
+    self.expect(check, false)
+  end
+
   def self.summary
     puts "-------------------------------------------------------------------"
     puts "#{@failed == 0 ? '✅' : '🔴'} [Summary] Passed #{@expectations - @failed}, Failed: #{@failed}, Total: #{@expectations}."
