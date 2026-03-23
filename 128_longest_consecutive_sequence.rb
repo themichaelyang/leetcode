@@ -13,6 +13,7 @@ def longest_consecutive(nums)
 
   nums.each do |x|
     next if freq[x].nil?
+    freq.delete(x)
 
     lower = x - 1
     until freq[lower].nil?
