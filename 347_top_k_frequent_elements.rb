@@ -97,22 +97,48 @@ end
 MIN = -10000
 MAX = 10000
 
-# @param {Integer[]} nums
-# @param {Integer} k
-# @return {Integer[]}
-def top_k_frequent(nums, k)
-  freq = Array.new(MIN.abs + MAX + 1) { |i| [0, i + MIN]  } # freq[x - min] = [frequency of x, x]
+# using max heap
+def top_k_frequent_heap(nums, k)
+   # freq[x - min] = [frequency of x, x]
+   # probably cheaper to use a hashmap unless extremely sparse nums
+   # but i'll keep as reference.
+  freq = Array.new(MIN.abs + MAX + 1) { |i| [0, i + MIN]  }
 
   k_frequent = []
   nums.each do |x|
     freq[x - MIN][0] += 1
   end
 
-  MaxHeap.new(freq).pop_k!(k).map(&:last) # O(n) to build, then O(k log n) to partial heapsort
+   # O(n) to build, then O(k log n) to pop k times (partial heapsort)
+  MaxHeap.new(freq).pop_k!(k).map(&:last)
+end
+
+# @param {Integer[]} nums
+# @param {Integer} k
+# @return {Integer[]}
+def top_k_frequent(nums, k)
+  buckets = Array.new(nums.length + 1)
+  nums.tally.each do |x, count|
+    buckets[count] ||= []
+    buckets[count].append(x)
+  end
+
+  # pop k values from the top buckets
+  # single pass: O(n), since buckets are bound by n
+  top_k = []
+  while top_k.length < k
+    next unless most_freq = buckets.pop
+
+    while most_freq.length > 0 && top_k.length < k
+      top_k << most_freq.pop
+    end
+  end
+
+  top_k
 end
 
 require_relative './testing'
 Testing.expect(top_k_frequent([1], 1), [1])
 Testing.expect(top_k_frequent([1, 2, 2, 2, 3], 1), [2])
-Testing.expect(top_k_frequent([1,1,1,2,2,3333], 2), [1, 2])
+Testing.expect(top_k_frequent([1, 1, 1, 2, 2, 3333], 2), [1, 2])
 Testing.summary
