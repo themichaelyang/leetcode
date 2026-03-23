@@ -34,6 +34,8 @@ def longest_consecutive(nums)
   longest.size
 end
 
+# an idea from claude: only start counting at beginning of a seq
+
 require_relative './testing'
 Testing.expect(longest_consecutive([100,4,200,1,3,2]), 4)
 Testing.expect(longest_consecutive([0,3,7,2,5,8,4,6,0,1]), 9)

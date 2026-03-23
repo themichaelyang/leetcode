@@ -10,19 +10,11 @@
 # @param {Integer} target
 # @return {Integer[]}
 def two_sum(nums, target)
-  indexes = {}
-
+  seen = {}
   nums.each_with_index do |x, i|
-    indexes[x] ||= []
-    indexes[x].append(i)
+    return [seen[target - x], i] unless seen[target - x].nil?
+    seen[x] = i # only add after checking to handle target - x == x case
   end
-
-  nums.each_with_index do |x, i|
-    next if indexes[target - x].nil?
-    return [i, indexes[target - x][0]] unless target - x == x
-    return [i, indexes[x][1]] if target - x == x && indexes[target - x].length >= 2
-  end
-
   []
 end
 
