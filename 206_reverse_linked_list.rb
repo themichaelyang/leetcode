@@ -26,12 +26,12 @@ end
 
 # @param {ListNode} head
 # @return {ListNode}
-def reverse_list(head)
+def reverse_list_direct_recursion(head)
   reverse_list_impl(head)[:head]
 end
 
 def reverse_list_impl(node)
-  if node.next.nil?
+  if node.nil? || node.next.nil?
     {head: node, parent: node}
   else
     parents = reverse_list_impl(node.next)
@@ -42,8 +42,22 @@ def reverse_list_impl(node)
   end
 end
 
+# simpler...
+def reverse_list(node, parent=nil)
+  if node.nil?
+    parent # new head
+  else
+    child = node.next
+    node.next = parent
+    reverse_list(child, node)
+  end
+end
+
 require_relative './testing'
 Testing.expect(ListNode.new(1).to_a, [1])
 Testing.expect(ListNode.new(1, ListNode.new(2, ListNode.new(3))).to_a, [1, 2, 3])
+Testing.expect(reverse_list(ListNode.new(1)).to_a, [1])
+Testing.expect(reverse_list(ListNode.new(1, ListNode.new(2))).to_a, [2, 1])
 Testing.expect(reverse_list(ListNode.new(1, ListNode.new(2, ListNode.new(3)))).to_a, [3, 2, 1])
+Testing.expect(reverse_list(nil).to_a, [])
 Testing.summary
