@@ -37,9 +37,9 @@ def gcd_of_strings(str1, str2)
   max_overlap = overlap_length(str1, str2, max_gcd)
 
   divisors = (1..max_overlap).select do |substr_len|
-    (str1.length % substr_len).zero? && \
-      (str2.length % substr_len).zero? && \
-      divides?(str1, substr_len) && \
+    (str1.length % substr_len).zero? &&
+      (str2.length % substr_len).zero? &&
+      divides?(str1, substr_len) &&
       divides?(str2, substr_len)
   end
 
