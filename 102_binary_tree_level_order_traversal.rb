@@ -13,9 +13,8 @@
 # end
 require_relative './lib/tree_node'
 
-# @param {TreeNode} root
-# @return {Integer[][]}
-def level_order(root)
+# this version explicitly tracks depth
+def level_order_track_depth(root)
   return [] if root.nil?
   # BFS!
   queue = [[root, 0]]
@@ -32,6 +31,33 @@ def level_order(root)
 
   out
 end
+
+# @param {TreeNode} root
+# @return {Integer[][]}
+def level_order(root)
+  return [] if root.nil?
+  queue = [root]
+  out = []
+
+  until queue.empty?
+    level = Array.new(queue.length)
+
+    # queue contains one level, all nodes of level are shifted/popped
+    queue.length.times do |i|
+      current = queue.shift
+      level[i] = current.val
+
+      # after queue.length.times completes, queue contains next level
+      queue.push(current.left) if current.left
+      queue.push(current.right) if current.right
+    end
+
+    out.append(level)
+  end
+
+  out
+end
+
 
 require_relative './testing'
 Testing.expect(
