@@ -20,8 +20,10 @@ require_relative './lib/tree_node'
 # end
 
 # Follow up: Recursive solution is trivial, could you do it iteratively?
+
 # @param {TreeNode} root
 # @return {Integer[]}
+# apparently don't need to track visited if you push all left nodes first
 def inorder_traversal(root)
   return [] if root.nil?
 
