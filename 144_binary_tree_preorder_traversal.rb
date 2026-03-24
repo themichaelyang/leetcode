@@ -5,13 +5,33 @@
 # Definition for a binary tree node.
 require_relative './lib/tree_node'
 
-# @param {TreeNode} root
-# @return {Integer[]}
-def preorder_traversal(root)
+def preorder_traversal_rec(root)
   return [] if root.nil?
-  [root.val, *preorder_traversal(root.left), *preorder_traversal(root.right)]
+  [root.val, *preorder_traversal_rec(root.left), *preorder_traversal_rec(root.right)]
 end
 
+# Follow up: Recursive solution is trivial, could you do it iteratively?
+
+# @param {TreeNode} root
+# @return {Integer[]}
+# iterative DFS with stack
+def preorder_traversal(root)
+  return [] if root.nil?
+
+  stack = [root]
+  out = []
+
+  until stack.empty?
+    current = stack.pop
+    out << current.val
+
+     # push right first so its processed last
+    stack << current.right if current.right
+    stack << current.left if current.left
+  end
+
+  out
+end
 
 require_relative './testing'
 Testing.expect(
