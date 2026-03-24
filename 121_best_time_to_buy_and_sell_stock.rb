@@ -9,7 +9,7 @@
 
 # @param {Integer[]} prices
 # @return {Integer}
-def max_profit(prices)
+def max_profit_prefix_postfix(prices)
   # highest_after[i] = prices[i..].max
   highest_after = Array.new(prices.length)
   highest_after[-1] = prices.last
@@ -24,6 +24,18 @@ def max_profit(prices)
   end
 
   prices.length.times.map { |i| highest_after[i] - lowest_before[i] }.max
+end
+
+# turns out the postfix is redundant!
+# the highest_after only increases, and so does the max_profit
+# so its sufficient to compare the current price to the running min
+def max_profit(prices)
+  lowest_so_far = prices.first
+
+  prices.reduce(0) do |most, p|
+    lowest_so_far = p if p < lowest_so_far
+    [most, p - lowest_so_far].max
+  end
 end
 
 require_relative './testing'
