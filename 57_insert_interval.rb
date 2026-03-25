@@ -35,11 +35,8 @@ end
 # @param {Integer[]} new_interval
 # @return {Integer[][]}
 def insert(intervals, new_interval)
-  inserted = false
-  updated = []
-
-  # insert before first interval not strictly after new interval
-  # (e.g. first before or overlapping)
+  # insert before first interval that overlaps with or starts after new_interval
+  # admittedly, i find bsearch pretty confusing, could naive loop instead
   insert_before = intervals.bsearch_index do |inter|
     !after?(new_interval, inter)
   end || intervals.length
@@ -52,6 +49,8 @@ def insert(intervals, new_interval)
     if overlap?(intervals[insert_before], intervals[i])
       intervals[insert_before] = merge(intervals[insert_before], intervals[i])
       intervals[i] = nil
+    else
+      break
     end
   end
 
