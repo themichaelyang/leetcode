@@ -29,6 +29,8 @@ end
 #   sleep 1
 # end
 
+# Follow up: Can you solve it using O(1) (i.e. constant) memory?
+
 # @param {ListNode} head
 # @return {Boolean}
 # annoyed that this isn't snake_case in leetcode
@@ -40,6 +42,7 @@ def hasCycle(head)
   loop do
     tortoise = tortoise&.next
     hare = hare&.next&.next
+    return false if hare.nil?
     break if tortoise == hare
   end
 
