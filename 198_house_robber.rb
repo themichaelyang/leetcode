@@ -13,6 +13,9 @@ def rob(nums)
   loot = nums.dup
   loot[2] = loot[0] + nums[2] if loot.length >= 3
 
+  # why is -2 and -3 sufficient? it's always better to rob both -2 and -4
+  # than just -4, so -2 handles the -4 (and beyond) cases. same with -5 (and beyond),
+  # which is handled by -3.
   3.upto(loot.length - 1) do |i|
     loot[i] = [
       loot[i - 2],
