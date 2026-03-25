@@ -26,6 +26,8 @@ end
 # @param {ListNode} list1
 # @param {ListNode} list2
 # @return {ListNode}
+# another idea for head is to use a sentinel then return sentinel.next
+# if we don't want to do work outside the loop
 def merge_two_lists(list1, list2)
   head, list1, list2 = take_smallest(list1, list2)
   prev = head
