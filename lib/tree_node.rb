@@ -11,6 +11,7 @@ class TreeNode
   # custom methods (for debugging and tests) #
   # ======================================== #
 
+  # format: https://support.leetcode.com/hc/en-us/articles/32442719377939-How-to-create-test-cases-on-LeetCode#h_01J5EGREAW3NAEJ14XC07GRW1A
   # deserializing from leetcode style level order format
   # this is a very literal level order approach,
   # but could also bfs level order with a queue
