@@ -39,12 +39,15 @@ def insert(intervals, new_interval)
   updated = []
 
   # insert before first interval not strictly after new interval
+  # (e.g. first before or overlapping)
   insert_before = intervals.bsearch_index do |inter|
     !after?(new_interval, inter)
   end || intervals.length
 
   intervals.insert(insert_before, new_interval)
 
+  # merge all overlapping with new interval. we only need to check from
+  # new interval index because everything before is not overlapping
   (insert_before + 1).upto(intervals.length - 1).each do |i|
     if overlap?(intervals[insert_before], intervals[i])
       intervals[insert_before] = merge(intervals[insert_before], intervals[i])
