@@ -20,6 +20,7 @@
 #   (i.e., like __builtin_popcount in C++)?
 
 # O(n) using the hint: Divide the numbers in ranges like [2-3], [4-7], [8-15] and so on. And try to generate new range from previous.
+# there's a simpler way backtracking on ones[i >> 1] + (i & 1), but i still like my solution
 def count_bits(n)
   return [0] if n == 0
 
