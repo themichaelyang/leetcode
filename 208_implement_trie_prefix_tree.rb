@@ -29,7 +29,6 @@ class Trie
     nil
   end
 
-
   #: (String) -> bool
   def search(word)
     !!@trie.dig(*word.chars)&.dig(:end)
@@ -44,14 +43,10 @@ class Trie
     trie = nil
     ops.each_with_index.map do |op, i|
       case op
-      when 'Trie'
-        trie = Trie.new; nil
-      when 'insert'
-        trie.insert(*params[i])
-      when 'search'
-        trie.search(*params[i])
-      when 'startsWith'
-        trie.starts_with(*params[i])
+      when 'Trie' then trie = Trie.new; nil
+      when 'insert' then trie.insert(*params[i])
+      when 'search' then trie.search(*params[i])
+      when 'startsWith' then trie.starts_with(*params[i])
       end
     end
   end
