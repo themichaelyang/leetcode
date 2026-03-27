@@ -20,7 +20,7 @@ class Trie
   def insert(word)
     subtree = @trie
 
-    word.chars.each_with_index do |char, i|
+    word.chars.each do |char|
       subtree[char] ||= {}
       subtree = subtree[char]
     end
