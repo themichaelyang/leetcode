@@ -22,18 +22,39 @@
 # taking a number (don't advance index) or skipping it (index + 1)
 #
 # the constraints help a lot, since they are distinct and you can use each
-# number any number of times
-def combination_sum(candidates, target, start=0, sum=0, path=[])
-  return [path] if target == sum
-  return [] if start >= candidates.length
-  return [] if sum > target
-  return [] if path.length >= 150
+# number any number of times, and are positive numbers
 
-  start.upto(candidates.length - 1).each.flat_map do |i|
+# def combination_sum(candidates, target, start=0, sum=0, path=[])
+#   return [path] if target == sum
+#   return [] if start >= candidates.length
+#   return [] if sum > target
+#   return [] if path.length >= 150
+
+#   start.upto(candidates.length - 1).each.flat_map do |i|
+#     x = candidates[i]
+#     combination_sum(candidates, target, i, sum + x, path + [x])
+#   end
+# end
+
+# mutate results and path instead of copying each time
+# we could also do this fully iterative with stack
+def combination_sum(candidates, target, start=0, sum=0, path=[], results=[])
+  return results << path.dup if target == sum
+  return results if start >= candidates.length
+  return results if sum > target
+
+  # explore paths with dfs
+  start.upto(candidates.length - 1).each do |i|
     x = candidates[i]
-    combination_sum(candidates, target, i, sum + x, path + [x])
+    path << x
+    # don't use return result because results is mutated
+    combination_sum(candidates, target, i, sum + x, path, results)
+    path.pop # remove current path, requires dfs ordering to pop path in same order explored
   end
+
+  results
 end
+
 
 require_relative './testing'
 Testing.expect(combination_sum([2,3,6,7], 7), [[2,2,3],[7]])
