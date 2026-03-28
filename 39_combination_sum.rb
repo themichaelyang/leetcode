@@ -15,9 +15,7 @@
 #   All elements of candidates are distinct.
 #   1 <= target <= 40
 
-# @param {Integer[]} candidates
-# @param {Integer} target
-# @return {Integer[][]}
+# https://neetcode.io/problems/combination-target-sum/solution
 # neetcode solution just has two recursive cases:
 # taking a number (don't advance index) or skipping it (index + 1)
 #
@@ -36,6 +34,9 @@
 #   end
 # end
 
+# @param {Integer[]} candidates
+# @param {Integer} target
+# @return {Integer[][]}
 # mutate results and path instead of copying each time
 # we could also do this fully iterative with stack
 def combination_sum(candidates, target, start=0, sum=0, path=[], results=[])
