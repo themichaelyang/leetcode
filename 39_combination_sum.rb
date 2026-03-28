@@ -43,12 +43,15 @@ def combination_sum(candidates, target, start=0, sum=0, path=[], results=[])
   return results if start >= candidates.length
   return results if sum > target
 
+  # sort on first call to exit early when sum > target
+  candidates.sort! if start == 0 && path.empty?
+
   # explore paths with dfs
   start.upto(candidates.length - 1).each do |i|
-    x = candidates[i]
-    path << x
+    break if sum + candidates[i] > target
+    path << candidates[i]
     # don't use return result because results is mutated
-    combination_sum(candidates, target, i, sum + x, path, results)
+    combination_sum(candidates, target, i, sum + candidates[i], path, results)
     path.pop # remove current path, requires dfs ordering to pop path in same order explored
   end
 
