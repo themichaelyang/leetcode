@@ -9,7 +9,7 @@
 # The test cases are generated such that the number of unique combinations that
 # sum up to target is less than 150 combinations for the given input.
 
-# Contraints:
+# Constraints:
 #   1 <= candidates.length <= 30
 #   2 <= candidates[i] <= 40
 #   All elements of candidates are distinct.
@@ -18,6 +18,11 @@
 # @param {Integer[]} candidates
 # @param {Integer} target
 # @return {Integer[][]}
+# neetcode solution just has two recursive cases:
+# taking a number (don't advance index) or skipping it (index + 1)
+#
+# the constraints help a lot, since they are distinct and you can use each
+# number any number of times
 def combination_sum(candidates, target, start=0, sum=0, path=[])
   return [path] if target == sum
   return [] if start >= candidates.length
