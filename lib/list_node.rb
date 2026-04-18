@@ -6,6 +6,10 @@ class ListNode
       @next = _next
   end
 
+  def self.from_a(list)
+    from_leetcode(list)
+  end
+
   def self.from_leetcode(list, cycle_pos=-1)
     nodes = list.map do |val|
       ListNode.new(val)
