@@ -19,32 +19,25 @@ require_relative './lib/list_node'
 # @param {ListNode} l2
 # @return {ListNode}
 def add_two_numbers(l1, l2)
-  out_sentinel = ListNode.new # so we can append to it
+  sentinel = ListNode.new # to keep logic in the loop
 
-  out_digit = out_sentinel
+  tail = sentinel
   l1_digit = l1
   l2_digit = l2
   carry = 0
 
-  until l1_digit.nil? && l2_digit.nil? && carry == 0
-    v1 = l1_digit&.val || 0
-    v2 = l2_digit&.val || 0
-    sum = v1 + v2 + carry
+  while l1_digit || l2_digit || carry == 1
+    sum = (l2_digit&.val || 0) + (l1_digit&.val || 0) + carry
+    # carry, digit = [sum >= 10 ? 1 : 0, sum % 10]
+    carry, digit = sum.divmod(10) # works with integer truncation
+    tail.next = ListNode.new(digit)
 
-    digit, carry = if sum >= 10
-      [sum % 10, 1] # could use divmod and int trunc
-    else
-      [sum, 0]
-    end
-
-    out_digit.next = ListNode.new(digit)
-
-    out_digit = out_digit.next
+    tail = tail.next
     l1_digit = l1_digit&.next
     l2_digit = l2_digit&.next
   end
 
-  out_sentinel.next
+  sentinel.next
 end
 
 def test_add(a, b)
