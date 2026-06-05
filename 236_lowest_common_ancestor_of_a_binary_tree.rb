@@ -22,18 +22,17 @@ require_relative './lib/tree_node.rb'
 # @return {TreeNode}
 # seems like p and q are references, not copies
 def lowest_common_ancestor(root, p, q)
-  # p "root: #{root&.val}"
   if root.nil?
     nil
   elsif root == p
-    putr(is_subtree?(root, q) ? root : :p)
+    is_subtree?(root, q) ? root : :p
   elsif root == q
-    putr(is_subtree?(root, p) ? root : :q)
+    is_subtree?(root, p) ? root : :q
   else
     lca_left = lowest_common_ancestor(root.left, p, q)
-    return putr(lca_left) if lca_left.is_a? TreeNode
+    return lca_left if lca_left.is_a? TreeNode
     lca_right = lowest_common_ancestor(root.right, p, q)
-    return putr(lca_right) if lca_right.is_a? TreeNode
+    return lca_right if lca_right.is_a? TreeNode
 
     if [lca_left, lca_right].compact.sort == [:p, :q]
       root
@@ -41,11 +40,6 @@ def lowest_common_ancestor(root, p, q)
       [lca_left, lca_right].compact.first
     end
   end
-end
-
-def putr(val)
-  # puts val
-  val
 end
 
 def is_subtree?(root, tree)

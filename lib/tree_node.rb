@@ -15,7 +15,7 @@ class TreeNode
   # deserializing from leetcode style level order format
   # this is a very literal level order approach,
   # but could also bfs level order with a queue
-  def self.from_leetcode(list)
+  def self.from_leetcode(list, with_refs=false)
     return nil if list.nil? || list.length == 0
     nodes = list.map { |val| TreeNode.new(val) if val }
 
@@ -46,7 +46,11 @@ class TreeNode
       end
     end
 
-    root
+    if with_refs # with indexed references
+      [root, nodes]
+    else
+      root
+    end
   end
 
   def ==(other)
