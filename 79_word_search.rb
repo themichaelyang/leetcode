@@ -9,44 +9,57 @@
 # @param {String} word
 # @return {Boolean}
 def exist(board, word)
-  height, width = [board.length, board.first.length]
-  visited = Array.new(height) { Array.new(width) { false } }
+  Board.new(board).exist?(word)
+end
 
-  height.times.any? do |y|
-    width.times.any? do |x|
-      dfs([y, x], 0, board, visited, width, height, word)
+class Board
+  attr_accessor :board, :height, :width, :visited
+
+  def initialize(board)
+    self.board = board
+    self.height, self.width = board.length, board.first.length
+  end
+
+  def exist?(word)
+    board_chars, word_chars = board.flatten.tally, word.chars.tally
+    return false unless word_chars.all? { |ch, freq| (board_chars[ch] || 0) >= freq }
+
+    self.visited = Array.new(height) { Array.new(width) { false } }
+
+    height.times.any? do |y|
+      width.times.any? do |x|
+        dfs([y, x], 0, word)
+      end
     end
   end
-end
 
-# recursive backtracking template much easier than iterative to undo visit
-# this is because it tracks tree structure better. with iterative dfs with
-# stack can push an undo sentinel to the stack to unvisit a branch.
-def dfs(pos, char_at, board, visited, width, height, word)
-  return word[char_at] == board.dig(*pos) if char_at == word.length - 1
-  return false if word[char_at] != board.dig(*pos)
+  # recursive backtracking template much easier than iterative to undo visit
+  # this is because it tracks tree structure better. with iterative dfs with
+  # stack can push an undo sentinel to the stack to unvisit a branch.
+  def dfs(pos, char_at, word)
+    return word[char_at] == board.dig(*pos) if char_at == word.length - 1
+    return false if word[char_at] != board.dig(*pos)
 
-  visited[pos.first][pos.last] = true
+    self.visited[pos.first][pos.last] = true
 
-  available = list_neighbors(pos, width, height)
-    .reject { |nb| visited.dig(*nb) }
+    available = list_neighbors(pos).reject { |nb| self.visited.dig(*nb) }
+    result = available.any? do |av|
+      dfs(av, char_at + 1, word)
+    end
 
-  result = available.any? do |av|
-    dfs(av, char_at + 1, board, visited, width, height, word)
+    self.visited[pos.first][pos.last] = false
+
+    result
   end
 
-  visited[pos.first][pos.last] = false
+  def list_neighbors(pos)
+    coords = [[1, 0], [-1, 0], [0, 1], [0, -1]].map do |dy, dx|
+      [pos.first + dy, pos.last + dx]
+    end
 
-  result
-end
-
-def list_neighbors(pos, width, height)
-  coords = [[1, 0], [-1, 0], [0, 1], [0, -1]].map do |dy, dx|
-    [pos.first + dy, pos.last + dx]
-  end
-
-  coords.select do |y, x|
-    0 <= y && y < height && 0 <= x && x < width
+    coords.select do |y, x|
+      0 <= y && y < height && 0 <= x && x < width
+    end
   end
 end
 
@@ -93,4 +106,14 @@ Testing.assert(exist([["a", "a", "a"], ["b", "b", "a"], ["a", "a", "a"]], "aaaaa
 Testing.assert(exist([["a", "a", "a"], ["b", "b", "a"], ["a", "a", "a"]], "abaab"))
 
 Testing.assert(exist([["C", "A", "A"], ["A", "A", "A"], ["B", "C", "D"]], "AAB"))
+Testing.refute(exist(
+  [["A", "A", "A", "A", "A", "A"],
+   ["A", "A", "A", "A", "A", "A"],
+   ["A", "A", "A", "A", "A", "A"],
+   ["A", "A", "A", "A", "A", "A"],
+   ["A", "A", "A", "A", "A", "A"],
+   ["A", "A", "A", "A", "A", "A"]],
+  "AAAAAAAAAAAAAAB"
+))
+
 Testing.summary
