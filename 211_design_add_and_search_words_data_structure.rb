@@ -20,12 +20,14 @@ class WordDictionary
       prev = (prev[c] ||= {})
     end
 
-    prev[:end] = {}
+    prev[:end] = {} # since we rely on nil access
     nil
   end
 
   #: (String) -> bool
-  def search(word)
+  # this is a bfs, which is inefficient since it finds *all* wildcard matches
+  # instead of just one. dfs will short circuit on first found match.
+  def search_all(word)
     branches = [@trie]
 
     word.chars.each do |c|
@@ -43,6 +45,26 @@ class WordDictionary
     end
 
     branches.any? { |br| br[:end] }
+  end
+
+  # dfs
+  def search(word)
+    stack = [[@trie, 0]]
+
+    until stack.empty?
+      branch, i = stack.pop
+      c = word[i]
+
+      return true if i == word.length && branch[:end]
+
+      if c == "."
+        branch.values.each { |subtree| stack.push([subtree, i + 1]) }
+      elsif branch[c]
+        stack.push([branch[c], i + 1])
+      end
+    end
+
+    false
   end
 end
 
