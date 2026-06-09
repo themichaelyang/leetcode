@@ -21,6 +21,7 @@ class WordDictionary
     end
 
     prev[:end] = {}
+    nil
   end
 
   #: (String) -> bool
@@ -51,6 +52,27 @@ end
 # param_2 = obj.search(word)
 
 require_relative "./testing"
+
+def test_leetcode(instructions, parameters, expected)
+  dict = nil
+
+  actual = instructions.zip(parameters).map do |instr, params|
+    case instr
+    when "WordDictionary" then dict = WordDictionary.new; nil
+    when "addWord" then dict.add_word(params.first)
+    when "search" then dict.search(params.first)
+    end
+  end
+
+  Testing.expect(actual, expected)
+end
+
+test_leetcode(
+  ["WordDictionary", "addWord", "addWord", "addWord", "search", "search", "search", "search"],
+  [[], ["bad"], ["dad"], ["mad"], ["pad"], ["bad"], [".ad"], ["b.."]],
+  [nil, nil, nil, nil, false, true, true, true]
+)
+
 dict = WordDictionary.new
 Testing.refute(dict.search("h"))
 Testing.refute(dict.search("."))
